@@ -1,1 +1,3 @@
-print 'hello,world'
+xiang lingxue , i am stupid
+i sorry
+sad sad
