@@ -1,6 +1,7 @@
-Git is a distributed version control system.
+this a letter,
 Git is free software distributed under the GPL.
 I have no chance.
 but i need to create the chance!
-Git tracks changes.
+I don't have courge, i am lufu!!
+if i have another chance, i will adsfjlj
 smile happy forever!66666666666
