@@ -1,0 +1,45 @@
+#在一台电脑上使用两个github
+前提：已经在使用的github的A账号，其ssh-key保存在~/.ssh/id_rsa中
+先需要添加另一个ssh-key
+
+1.生成新的ssh-key
+ssh-keygen -t rsa -f ~/.ssh/id_rsa_second -C "13277061183@163.com"
+
+2.config文件
+Host github.com
+User git
+Hostname github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa.new
+
+#second user(597009170@qq.com)
+Host github
+Hostname github.com
+User git
+IdentityFile F:/beihang_master/repository/id_rsa_second
+
+3.将生成的id_ras.pub 和 id_rsa_second内容copy到对应的repo
+
+4.测试ssh连接
+ssh -T git@github.com ##输出：mambasmile
+ssh -T git@github     ##输出：NewOwl
+
+5.将项目clone到本地，folder-name 是本地文件夹路径
+git clone git@github.com:NewOwl/beihangYan.git
+
+6.取消全局用户名和邮箱设置，并进入项目文件夹单独设置
+git config -global -unset user.name
+git config -global -unset user.email
+单独设置每个repo用户名和邮箱
+git config user.email "597009170@qq.com"
+git config user.name "NewOwl"
+
+7.项目目录下，重建origin
+git remote rm origin
+git remote add origin git@github.com:NewOwl:beihangYan.git
+
+
+
+
+
+
