@@ -1,0 +1,166 @@
+创建工程
+1.scrapy startproject tutorial
+
+创建spider
+class QuoteSpider(scrapy.Spider):
+	name = "qutoes"
+	
+	def start_requests(self):
+		urls=['http://quotes.toscrapy.com/page/1/','http://quotes.toscrapy.com/page/2/']
+		
+		for url in urls:
+			yield scrapy.Request(url=url,callback=self.parse)
+	
+	def parse(self,response):
+		page = response.url.split("/")[-2]
+		filename = 'qutoes-%s.html' % page
+		with open(filename,"wb") as f:
+			f.write(response.body)
+		self.log('Saved file %s' % filename)
+	
+
+2.run spider
+scrapy crawl qutoes
+
+调度过程分析：
+start_requests方法返回一个scrapy.Request对象，scrapy schedule调度这个scrapy.Request对象；收到响应后实例化一个Response对象，调用parse方法对response对象进行解析
+
+3.调用start_requests方法的快捷方式
+class QuoteSpider(scrapy.Spider):
+	name = "qutoes"
+	
+	def start_requests(self):
+		start_urls=['http://quotes.toscrapy.com/page/1/','http://quotes.toscrapy.com/page/2/']
+		
+	def parse(self,response):
+		page = response.url.split("/")[-2]
+		filename = 'qutoes-%s.html' % page
+		with open(filename,"wb") as f:
+			f.write(response.body)
+		self.log('Saved file %s' % filename)
+解释：parse是scrapy的默认调用方法
+
+4.extract data
+使用scrapy shell
+scrapy shell "http://quotes.toscrapy.com/page/1/"
+
+shell 下：使用CSS提取响应对象  response.css("title")   等价于  response.xpath('//title')
+运行response.css("title")返回一个SelectorList对象（是一个Selector对象列表，Selector对象包裹了XML/HTML元素）
+response.css('title::text').extract()
+
+response.css('title::text').extract_first() 等价于  response.css('title::text')[0].extract()
+response.xpath('//title/text()').extract_first()
+
+response.css('title::text').re(r'(\w+) to (\w+)')
+还可使用正则表达式进行extract()
+
+xpath时Scarpy Selector的基础，CSS selector也转化成了xpath
+<div class="quote">
+    <span class="text">“The world as we have created it is a process of our
+    thinking. It cannot be changed without changing our thinking.”</span>
+    <span>
+        by <small class="author">Albert Einstein</small>
+        <a href="/author/Albert-Einstein">(about)</a>
+    </span>
+    <div class="tags">
+        Tags:
+        <a class="tag" href="/tag/change/page/1/">change</a>
+        <a class="tag" href="/tag/deep-thoughts/page/1/">deep-thoughts</a>
+        <a class="tag" href="/tag/thinking/page/1/">thinking</a>
+        <a class="tag" href="/tag/world/page/1/">world</a>
+    </div>
+</div>
+
+代码：
+for quote in response.css("div.quote"):
+...     text = quote.css("span.text::text").extract_first()
+...     author = quote.css("small.author::text").extract_first()
+...     tags = quote.css("div.tags a.tag::text").extract()
+
+5.在spider中extract data
+import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = "quotes"
+    start_urls = [
+        'http://quotes.toscrape.com/page/1/',
+        'http://quotes.toscrape.com/page/2/',
+    ]
+
+    def parse(self, response):
+        for quote in response.css('div.quote'):
+            yield {
+                'text': quote.css('span.text::text').extract_first(),
+                'author': quote.css('small.author::text').extract_first(),
+                'tags': quote.css('div.tags a.tag::text').extract(),
+            }
+yield会在log中输出
+
+6.保存scrapy data
+scrapy crawl quotes -o quotes.json
+如果没有删除quotes.json，连续运行上述命令两次，会产生错误，
+修改：scrapy crawl quotes -o quotes.jl
+JSON LINES格式是一个流
+
+7.跟踪链接
+<ul class="pager">
+    <li class="next">
+        <a href="/page/2/">Next <span aria-hidden="true">&rarr;</span></a>
+    </li>
+</ul>
+
+response.css('li.next a::attr(href)').extract_first()
+
+class QuotesSpider(scrapy.Spider):
+    name = "quotes"
+    start_urls = [
+        'http://quotes.toscrape.com/page/1/',
+    ]
+
+    def parse(self, response):
+        for quote in response.css('div.quote'):
+            yield {
+                'text': quote.css('span.text::text').extract_first(),
+                'author': quote.css('small.author::text').extract_first(),
+                'tags': quote.css('div.tags a.tag::text').extract(),
+            }
+
+        next_page = response.css('li.next a::attr(href)').extract_first()
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
+爬虫跟踪链接的调度机制：
+在回调函数中yield一个Request，schedule发送request，当request处理完成返回response时，调用callback函数（这里的回调函数时parse）
+
+import scrapy
+
+
+class AuthorSpider(scrapy.Spider):
+    name = 'author'
+
+    start_urls = ['http://quotes.toscrape.com/']
+
+    def parse(self, response):
+        # follow links to author pages
+        for href in response.css('.author + a::attr(href)').extract():
+            yield scrapy.Request(response.urljoin(href),
+                                 callback=self.parse_author)
+
+        # follow pagination links
+        next_page = response.css('li.next a::attr(href)').extract_first()
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
+
+    def parse_author(self, response):
+        def extract_with_css(query):
+            return response.css(query).extract_first().strip()
+
+        yield {
+            'name': extract_with_css('h3.author-title::text'),
+            'birthdate': extract_with_css('.author-born-date::text'),
+            'bio': extract_with_css('.author-description::text'),
+        }
+		
+		
