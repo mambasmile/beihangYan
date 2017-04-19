@@ -163,4 +163,20 @@ class AuthorSpider(scrapy.Spider):
             'bio': extract_with_css('.author-description::text'),
         }
 		
-		
+Scrapy工程目录结构
+scrapy.cfg表示项目的根目录，文件内容为python model（定义了项目的settings）的名字，
+scrapy startproject pmyproject(project_name) project（project_dir）
+scrapy genspider mydomain mydomain.com 
+
+查看所有scrapy命令：scrapy -h 
+scrapy check -l
+scrapy list
+
+class scrapy.Spider 是必须要继承的
+提供一个start_requests()方法：发送start_urls中的requests，并调用parse方法来解析response
+属性 name：spider的name，Scrapy根据name定位spider
+     allowed_domains: spider 爬取的domain
+	 start_urls
+	 custom_settings 
+
+

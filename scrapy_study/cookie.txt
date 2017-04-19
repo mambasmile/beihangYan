@@ -1,0 +1,15 @@
+class scrapy.http.Request(url[,callback,method='GET',headers,body,cookies,meta,encoding='utf-8',priority=0,dont_filter=False,errback])
+HTTP是无状态的面向连接的协议，为了保持连接状态，引入了Cookie机制
+
+Cookie是http消息头中的一种属性，包括
+cookie名字（name）
+cookie的值（value）
+cookie的路径（path）
+cookie所在域名（Domain）
+使用Cookie进行安全连接（secure）
+Cookie大小（size，不同浏览器对cookie个数及大小限制有差异）
+前两个参数是cookie应用的必要条件
+
+模拟登陆----scrapy提交表单
+
+
