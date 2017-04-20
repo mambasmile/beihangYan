@@ -1,0 +1,61 @@
+https://api.github.com/repos/octocat/Hello-World/pulls/comments/342751
+https://api.github.com/repos/octocat/Hello-World/pulls/comments/1826331
+https://api.github.com/repos/octocat/Hello-World/pulls/comments/1853965
+https://api.github.com/repos/octocat/Hello-World/pulls/comments/2558037
+https://api.github.com/repos/octocat/Hello-World/pulls/comments/4300188
+
+
+
+地址
+https://api.github.com/repos/octocat/Hello-World/pulls/8
+"login": "rohitsingh",
+"body": "wssaws\n",
+
+https://api.github.com/repos/octocat/Hello-World/pulls/8/comments
+"login": "rohitsingh",
+"body": "ffff gfgff\n",
+
+https://api.github.com/repos/octocat/Hello-World/issues/comments/3502420
+"login": "haridarshan",
+"body": "Project Hello World\n"
+
+地址
+https://api.github.com/repos/octocat/Hello-World/pulls/1
+"login": "unoju",
+"body": "",
+
+https://api.github.com/repos/octocat/Hello-World/issues/1/comments
+"login": "masonzou",
+"body": "test\n"
+
+"login": "198103292005021004",
+"body": "affirmative\n"
+
+"login": "siekier",
+"body": "hi\n"
+
+ "login": "yzwork",
+ "body": "hello :)\n"
+ 
+ "login": "vamshimolleti",
+ "body": "a new comment\n"
+ 
+ "login": "ahmadjoon",
+ "body": "Hi!there!\n"
+ 
+ "login": "damontenegrod",
+ "body": "Hi\n\n2013/4/29 ahmadjoon notifications@github.com\n\n> Hi!there!\n> \n> —\n> Reply to this email directly or view it on GitHubhttps://github.com/octocat/Hello-World/pull/1#issuecomment-17204510\n> .\n\n## \n\nSaludos,\n\nDavid Montenegro\n"
+ 
+ 
+ 
+
+issue 
+有的项目中参与的人多
+分析一个project中的issue，而不是所有project中的issue
+我们分析的是一个project中的pull request
+pull_request 
+候选集：之前被使用过的标签
+
+
+
+
