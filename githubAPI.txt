@@ -1,4 +1,4 @@
-https://api.github.com/repos/octocat/Hello-World/pulls/comments/342751
+﻿https://api.github.com/repos/octocat/Hello-World/pulls/comments/342751
 https://api.github.com/repos/octocat/Hello-World/pulls/comments/1826331
 https://api.github.com/repos/octocat/Hello-World/pulls/comments/1853965
 https://api.github.com/repos/octocat/Hello-World/pulls/comments/2558037
@@ -57,5 +57,11 @@ pull_request
 候选集：之前被使用过的标签
 
 
+pull request 的语义不太重要
+每个人可能提出多个pull request
+android应用中可能一个人就提出一个评论
+
+不太建议使用主体模型，消耗太大
+多挖掘一些信息：文件路径，代码信息
 
 
