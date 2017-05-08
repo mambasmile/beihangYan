@@ -1,0 +1,17 @@
+name = "你好"
+s = u"你好"
+
+print s+name.decode('utf-8')
+print type(s+name.decode('utf-8'))
+print type(name)
+print type(s)
+print type(name.decode('utf-8'))
+print type(s.encode('utf-8'))
+
+output：
+你好你好
+<type 'unicode'>
+<type 'str'>
+<type 'unicode'>
+<type 'unicode'>
+<type 'str'>
