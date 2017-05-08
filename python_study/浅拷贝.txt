@@ -1,0 +1,10 @@
+mylist = [ ([0] * 3) for i in range(4)]
+mylist[0][1]=10 
+print mylist
+output£º[[0, 10, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
+Ç³¿½±´£º
+mylist = [[0] * 3] *4
+mylist[0][1]=10 
+print mylist
+output£º[[0, 10, 0], [0, 10, 0], [0, 10, 0], [0, 10, 0]]
